@@ -82,23 +82,23 @@ def render_sidebar():
     )
 
     # Advanced search filters
-    st.sidebar.header("🔍 Расширенные фильтры")
+    # st.sidebar.header("🔍 Расширенные фильтры")
 
     # Basic filters
-    author_filter = st.sidebar.text_input("Автор документа", placeholder="Введите имя автора...")
+    # author_filter = st.sidebar.text_input("Автор документа", placeholder="Введите имя автора...")
 
     # Scientific content filters
-    st.sidebar.subheader("📚 Научное содержание")
+    # st.sidebar.subheader("📚 Научное содержание")
 
-    has_equations = st.sidebar.checkbox("Содержит формулы/уравнения")
-    has_methodology = st.sidebar.checkbox("Содержит методологию")
-    has_results = st.sidebar.checkbox("Содержит результаты")
-    has_abstract = st.sidebar.checkbox("Содержит аннотацию")
+    # has_equations = st.sidebar.checkbox("Содержит формулы/уравнения")
+    # has_methodology = st.sidebar.checkbox("Содержит методологию")
+    # has_results = st.sidebar.checkbox("Содержит результаты")
+    # has_abstract = st.sidebar.checkbox("Содержит аннотацию")
 
     # Content type filters
-    st.sidebar.subheader("📊 Тип содержания")
+    # st.sidebar.subheader("📊 Тип содержания")
 
-    content_types = st.sidebar.multiselect(
+    # content_types = st.sidebar.multiselect(
         "Выберите типы содержания",
         ["has_tables", "has_figures", "has_code"],
         format_func=lambda x: {
@@ -109,7 +109,7 @@ def render_sidebar():
     )
 
     # Complexity filter
-    complexity_filter = st.sidebar.selectbox(
+    # complexity_filter = st.sidebar.selectbox(
         "Уровень сложности",
         ["Любой", "basic", "intermediate", "advanced"],
         format_func=lambda x: {
@@ -121,7 +121,7 @@ def render_sidebar():
     )
 
     # Clear filters button
-    if st.sidebar.button("🗑️ Очистить фильтры"):
+    # if st.sidebar.button("🗑️ Очистить фильтры"):
         st.rerun()
 
     # Build metadata filters
@@ -156,13 +156,13 @@ def render_sidebar():
     }
 
     # Index statistics
-    if st.session_state.index_stats:
-        st.sidebar.header("📊 Статистика индекса")
-        stats = st.session_state.index_stats
-        st.sidebar.metric("Всего векторов", stats.get("total_vectors", 0))
-        st.sidebar.metric("Размерность", stats.get("dimension", 0))
-        if stats.get("index_fullness"):
-            st.sidebar.metric("Заполненность", f"{stats['index_fullness']:.1%}")
+    # if st.session_state.index_stats:
+        # st.sidebar.header("📊 Статистика индекса")
+        # stats = st.session_state.index_stats
+        # st.sidebar.metric("Всего векторов", stats.get("total_vectors", 0))
+        # st.sidebar.metric("Размерность", stats.get("dimension", 0))
+        # if stats.get("index_fullness"):
+            # st.sidebar.metric("Заполненность", f"{stats['index_fullness']:.1%}")
 
     # Query statistics
     query_stats = st.session_state.query_engine.get_statistics()
@@ -171,31 +171,31 @@ def render_sidebar():
         st.sidebar.metric("Всего запросов", query_stats["total_queries"])
         st.sidebar.metric("Успешные запросы", query_stats["successful_queries"])
 
-        if query_stats.get("self_corrected_queries", 0) > 0:
-            st.sidebar.metric("Самокоррекция", f"{query_stats['correction_rate']:.1f}%")
-            st.sidebar.metric("Среднее число попыток", query_stats["avg_retry_count"])
+        # if query_stats.get("self_corrected_queries", 0) > 0:
+            # st.sidebar.metric("Самокоррекция", f"{query_stats['correction_rate']:.1f}%")
+            # st.sidebar.metric("Среднее число попыток", query_stats["avg_retry_count"])
 
-        if query_stats["language_distribution"]:
-            st.sidebar.write("**Языки запросов:**")
-            for lang, count in query_stats["language_distribution"].items():
-                st.sidebar.write(f"- {lang}: {count}")
+        # if query_stats["language_distribution"]:
+            # st.sidebar.write("**Языки запросов:**")
+            # for lang, count in query_stats["language_distribution"].items():
+                # st.sidebar.write(f"- {lang}: {count}")
 
     # Enhanced features status
     st.sidebar.header("🚀 Активные улучшения")
 
-    if st.session_state.settings.enable_self_correction:
+    #if st.session_state.settings.enable_self_correction:
         st.sidebar.success("✅ Самокоррекция включена")
-    else:
+    #else:
         st.sidebar.warning("❌ Самокоррекция отключена")
 
-    if st.session_state.vector_store_manager.reranker:
+    #if st.session_state.vector_store_manager.reranker:
         st.sidebar.success("✅ Cohere Reranker активен")
-    else:
+    #else:
         st.sidebar.warning("❌ Reranker недоступен")
 
-    if st.session_state.settings.enable_contextual_extraction:
+    #if st.session_state.settings.enable_contextual_extraction:
         st.sidebar.success("✅ Контекстная обработка включена")
-    else:
+    #else:
         st.sidebar.warning("❌ Контекстная обработка отключена")
 
 
@@ -254,7 +254,7 @@ def render_document_upload():
                     # Show success with feature info
                     success_msg = "Документы успешно проиндексированы!"
                     if st.session_state.vector_store_manager.reranker:
-                        success_msg += " 🎯 Reranker готов к работе!"
+                        success_msg += " 🎯 Индекс готов к работе!"
                     st.success(success_msg)
                     st.rerun()
                 else:
@@ -316,7 +316,7 @@ def render_query_interface():
             with col2:
                 if result.get("self_corrected", False):
                     st.info(f"🎯 Самокоррекция применена")
-                else:
+                #else:
                     st.info(f"✅ Ответ сгенерирован с первой попытки")
 
             # Display sources
