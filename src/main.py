@@ -81,24 +81,24 @@ def render_sidebar():
         help="Минимальная релевантность для отображения результатов",
     )
 
-    # Advanced search filters
-    # st.sidebar.header("🔍 Расширенные фильтры")
+    Advanced search filters
+    st.sidebar.header("🔍 Расширенные фильтры")
 
-    # Basic filters
-    # author_filter = st.sidebar.text_input("Автор документа", placeholder="Введите имя автора...")
+    Basic filters
+    author_filter = st.sidebar.text_input("Автор документа", placeholder="Введите имя автора...")
 
-    # Scientific content filters
-    # st.sidebar.subheader("📚 Научное содержание")
+    Scientific content filters
+    st.sidebar.subheader("📚 Научное содержание")
 
-    # has_equations = st.sidebar.checkbox("Содержит формулы/уравнения")
-    # has_methodology = st.sidebar.checkbox("Содержит методологию")
-    # has_results = st.sidebar.checkbox("Содержит результаты")
-    # has_abstract = st.sidebar.checkbox("Содержит аннотацию")
+    has_equations = st.sidebar.checkbox("Содержит формулы/уравнения")
+    has_methodology = st.sidebar.checkbox("Содержит методологию")
+    has_results = st.sidebar.checkbox("Содержит результаты")
+    has_abstract = st.sidebar.checkbox("Содержит аннотацию")
 
-    # Content type filters
-    # st.sidebar.subheader("📊 Тип содержания")
+    Content type filters
+    st.sidebar.subheader("📊 Тип содержания")
 
-    # content_types = st.sidebar.multiselect(
+    content_types = st.sidebar.multiselect(
         "Выберите типы содержания",
         ["has_tables", "has_figures", "has_code"],
         format_func=lambda x: {
@@ -108,8 +108,8 @@ def render_sidebar():
         }.get(x, x),
     )
 
-    # Complexity filter
-    # complexity_filter = st.sidebar.selectbox(
+    Complexity filter
+    complexity_filter = st.sidebar.selectbox(
         "Уровень сложности",
         ["Любой", "basic", "intermediate", "advanced"],
         format_func=lambda x: {
@@ -120,11 +120,11 @@ def render_sidebar():
         }.get(x, x),
     )
 
-    # Clear filters button
-    # if st.sidebar.button("🗑️ Очистить фильтры"):
+    Clear filters button
+    if st.sidebar.button("🗑️ Очистить фильтры"):
         st.rerun()
 
-    # Build metadata filters
+    Build metadata filters
     metadata_filters = {}
 
     if author_filter:
@@ -148,54 +148,54 @@ def render_sidebar():
     if complexity_filter != "Любой":
         metadata_filters["complexity_level"] = complexity_filter
 
-    # Store filters in session state
+    Store filters in session state
     st.session_state.search_params = {
         "similarity_top_k": similarity_top_k,
         "similarity_threshold": similarity_threshold,
         "metadata_filters": metadata_filters,
     }
 
-    # Index statistics
-    # if st.session_state.index_stats:
-        # st.sidebar.header("📊 Статистика индекса")
-        # stats = st.session_state.index_stats
-        # st.sidebar.metric("Всего векторов", stats.get("total_vectors", 0))
-        # st.sidebar.metric("Размерность", stats.get("dimension", 0))
-        # if stats.get("index_fullness"):
-            # st.sidebar.metric("Заполненность", f"{stats['index_fullness']:.1%}")
+    Index statistics
+    if st.session_state.index_stats:
+        st.sidebar.header("📊 Статистика индекса")
+        stats = st.session_state.index_stats
+        st.sidebar.metric("Всего векторов", stats.get("total_vectors", 0))
+        st.sidebar.metric("Размерность", stats.get("dimension", 0))
+        if stats.get("index_fullness"):
+            st.sidebar.metric("Заполненность", f"{stats['index_fullness']:.1%}")
 
-    # Query statistics
+    Query statistics
     query_stats = st.session_state.query_engine.get_statistics()
     if query_stats["total_queries"] > 0:
         st.sidebar.header("📈 Статистика запросов")
         st.sidebar.metric("Всего запросов", query_stats["total_queries"])
         st.sidebar.metric("Успешные запросы", query_stats["successful_queries"])
 
-        # if query_stats.get("self_corrected_queries", 0) > 0:
-            # st.sidebar.metric("Самокоррекция", f"{query_stats['correction_rate']:.1f}%")
-            # st.sidebar.metric("Среднее число попыток", query_stats["avg_retry_count"])
+        if query_stats.get("self_corrected_queries", 0) > 0:
+            st.sidebar.metric("Самокоррекция", f"{query_stats['correction_rate']:.1f}%")
+            st.sidebar.metric("Среднее число попыток", query_stats["avg_retry_count"])
 
-        # if query_stats["language_distribution"]:
-            # st.sidebar.write("**Языки запросов:**")
-            # for lang, count in query_stats["language_distribution"].items():
-                # st.sidebar.write(f"- {lang}: {count}")
+        if query_stats["language_distribution"]:
+            st.sidebar.write("**Языки запросов:**")
+            for lang, count in query_stats["language_distribution"].items():
+                st.sidebar.write(f"- {lang}: {count}")
 
-    # Enhanced features status
+    Enhanced features status
     st.sidebar.header("🚀 Активные улучшения")
 
-    #if st.session_state.settings.enable_self_correction:
+    if st.session_state.settings.enable_self_correction:
         st.sidebar.success("✅ Самокоррекция включена")
-    #else:
+    else:
         st.sidebar.warning("❌ Самокоррекция отключена")
 
-    #if st.session_state.vector_store_manager.reranker:
+    if st.session_state.vector_store_manager.reranker:
         st.sidebar.success("✅ Cohere Reranker активен")
-    #else:
+    else:
         st.sidebar.warning("❌ Reranker недоступен")
 
-    #if st.session_state.settings.enable_contextual_extraction:
+    if st.session_state.settings.enable_contextual_extraction:
         st.sidebar.success("✅ Контекстная обработка включена")
-    #else:
+    else:
         st.sidebar.warning("❌ Контекстная обработка отключена")
 
 
@@ -213,14 +213,14 @@ def render_document_upload():
     if uploaded_files:
         st.write(f"**Выбрано файлов:** {len(uploaded_files)}")
 
-        # Show file details
+        Show file details
         for file in uploaded_files:
             file_size_mb = file.size / (1024 * 1024)
             st.write(f"- {file.name} ({file_size_mb:.1f}MB)")
 
         if st.button("🚀 Обработать документы", type="primary"):
             with st.spinner("Обработка документов..."):
-                # Process documents
+                Process documents
                 documents = st.session_state.document_processor.process_uploaded_files(
                     uploaded_files
                 )
@@ -228,7 +228,7 @@ def render_document_upload():
                 if documents:
                     st.success(f"Успешно обработано {len(documents)} документов")
 
-                    # Show extraction stats
+                    Show extraction stats
                     if hasattr(st.session_state.document_processor, "get_extraction_stats"):
                         stats = st.session_state.document_processor.get_extraction_stats()
                         if stats["contextual_extraction_enabled"]:
@@ -236,7 +236,7 @@ def render_document_upload():
                                 f"🧠 Контекстная обработка: {stats['available_extractors']} экстракторов активно"
                             )
 
-                    # Initialize or create index
+                    Initialize or create index
                     with st.spinner("Создание векторного индекса..."):
                         if not st.session_state.vector_store_manager.create_index():
                             st.error("Ошибка создания индекса Pinecone")
@@ -251,7 +251,7 @@ def render_document_upload():
                         st.session_state.vector_store_manager.get_index_stats()
                     )
 
-                    # Show success with feature info
+                    Show success with feature info
                     success_msg = "Документы успешно проиндексированы!"
                     if st.session_state.vector_store_manager.reranker:
                         success_msg += " 🎯 Индекс готов к работе!"
@@ -266,7 +266,7 @@ def render_query_interface():
     st.header("🤖 Поиск и вопросы")
 
     if not st.session_state.documents_loaded:
-        # Try to load existing index
+        Try to load existing index
         if st.session_state.vector_store_manager.load_existing_index():
             st.session_state.documents_loaded = True
             st.session_state.index_stats = st.session_state.vector_store_manager.get_index_stats()
@@ -274,7 +274,7 @@ def render_query_interface():
             st.warning("Сначала загрузите документы для индексации")
             return
 
-    # Query input
+    Query input
     query = st.text_area(
         "Задайте вопрос по документам:",
         placeholder="Например: Что говорится о машинном обучении в документах?",
@@ -299,27 +299,27 @@ def render_query_interface():
             )
 
         if result["success"]:
-            # Display answer
+            Display answer
             st.subheader("💡 Ответ")
             st.write(result["answer"])
 
-            # Display self-correction info
+            Display self-correction info
             if result.get("self_corrected", False):
                 st.success(
                     f"🔄 Ответ улучшен через самокоррекцию (попыток: {result.get('retry_count', 0)})"
                 )
 
-            # Display processing info
+            Display processing info
             col1, col2 = st.columns(2)
             with col1:
                 st.info(f"📊 Источников найдено: {len(result['sources'])}")
             with col2:
                 if result.get("self_corrected", False):
                     st.info(f"🎯 Самокоррекция применена")
-                #else:
+                else:
                     st.info(f"✅ Ответ сгенерирован с первой попытки")
 
-            # Display sources
+            Display sources
             if result["sources"]:
                 st.subheader("📚 Источники")
                 for source in result["sources"]:
@@ -361,13 +361,13 @@ def main():
     st.title("📚 RAG QA System")
     st.markdown("Система вопросов и ответов для исследовательских команд")
 
-    # Initialize session state
+    Initialize session state
     initialize_session_state()
 
-    # Render sidebar
+    Render sidebar
     render_sidebar()
 
-    # Main content
+    Main content
     tab1, tab2, tab3 = st.tabs(["📄 Документы", "🔍 Поиск", "📋 История"])
 
     with tab1:
